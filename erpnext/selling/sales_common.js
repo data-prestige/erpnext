@@ -11,7 +11,8 @@ cur_frm.email_field = "contact_email";
 frappe.provide("erpnext.selling");
 erpnext.selling.SellingController = class SellingController extends erpnext.TransactionController {
 	setup() {
-		super.setup();
+		this.frm.add_fetch("sales_partner", "commission_rate", "commission_rate"); 
+		this.frm.add_fetch("sales_person", "commission_rate", "commission_rate");
 	}
 
 	onload() {
@@ -128,11 +129,27 @@ erpnext.selling.SellingController = class SellingController extends erpnext.Tran
 		this.set_dynamic_labels();
 	}
 
-	discount_percentage(doc, cdt, cdn) {
+	discount_percentage_1(doc, cdt, cdn) {
 		var item = frappe.get_doc(cdt, cdn);
 		item.discount_amount = 0.0;
-		this.apply_discount_on_item(doc, cdt, cdn, 'discount_percentage');
+		this.apply_discount_on_item(doc, cdt, cdn, 'discount_percentage_1');
 	}
+	
+	discount_percentage_2 (doc, cdt, cdn) {
+		var item = frappe.get_doc(cdt, cdn);
+		this.apply_discount_on_item(doc, cdt, cdn, 'discount_percentage_2');
+	}
+		
+	discount_percentage_3(doc, cdt, cdn) {
+		var item = frappe.get_doc(cdt, cdn);
+		this.apply_discount_on_item(doc, cdt, cdn, 'discount_percentage_3');
+	}
+	
+	// discount_percentage(doc, cdt, cdn) {
+	// 	var item = frappe.get_doc(cdt, cdn);
+	// 	item.discount_amount = 0.0;
+	// 	this.apply_discount_on_item(doc, cdt, cdn, 'discount_percentage');
+	// }
 
 	discount_amount(doc, cdt, cdn) {
 
@@ -156,6 +173,10 @@ erpnext.selling.SellingController = class SellingController extends erpnext.Tran
 	}
 
 	commission_rate() {
+		this.calculate_commission();
+	}
+	
+	commission_rate_table() {
 		this.calculate_commission();
 	}
 
@@ -253,15 +274,41 @@ erpnext.selling.SellingController = class SellingController extends erpnext.Tran
 	}
 
 	calculate_commission() {
-		if(!this.frm.fields_dict.commission_rate) return;
-
-		if(this.frm.doc.commission_rate > 100) {
+		// we want to calculate commission based on sold item group
+		if (!this.frm.fields_dict.commission_rate) return;
+			
+		if (this.frm.doc.commission_rate > 100) {
 			this.frm.set_value("commission_rate", 100);
 			frappe.throw(`${__(frappe.meta.get_label(
 				this.frm.doc.doctype, "commission_rate", this.frm.doc.name
 			))} ${__("cannot be greater than 100")}`);
 		}
 
+		if (this.frm.doc.commission_rate_table) {
+			console.log(this.frm.doc.commission_rate_table.length)
+			var custom_commission = 0
+			
+			this.frm.doc.commission_rate_table.forEach(function (sandwich, index) {
+				console.log(index);
+				console.log(sandwich);
+			});
+			
+
+			var commissions = this.frm.doc.commission_rate_table.map(element => {
+				console.log(element)
+				let amount_eligible_for_commission = this.frm.doc.items.reduce(
+					(sum, item) => item.grant_commission && element.item_group===item.item_group ? sum + item.base_net_amount : sum, 0
+				)
+				console.log(amount_eligible_for_commission, element.commission_rate)
+				return amount_eligible_for_commission * element.commission_rate / 100.0
+			})
+			console.log(commissions)
+			this.frm.doc.total_custom_commission = flt(
+				custom_commission,
+				precision("total_custom_commission")
+			);
+		}
+		
 		this.frm.doc.amount_eligible_for_commission = this.frm.doc.items.reduce(
 			(sum, item) => item.grant_commission ? sum + item.base_net_amount : sum, 0
 		)
@@ -271,7 +318,8 @@ erpnext.selling.SellingController = class SellingController extends erpnext.Tran
 			precision("total_commission")
 		);
 
-		refresh_field(["amount_eligible_for_commission", "total_commission"]);
+		refresh_field(["amount_eligible_for_commission", "total_commission", "total_custom_commission"]);
+	
 	}
 
 	calculate_contribution() {
@@ -467,6 +515,40 @@ frappe.ui.form.on(cur_frm.doctype,"project", function(frm) {
 })
 
 frappe.ui.form.on(cur_frm.doctype, {
+	sales_partner: function (frm) {
+		let total_custom_commission = 0.0
+		if(!frm.fields_dict["sales_partner"]) {
+			return;
+		}
+		if (frm.doc.sales_partner) {
+			frappe.model.with_doc("Sales Partner", frm.doc.sales_partner, () => {
+				let sales_partner = frappe.model.get_doc("Sales Partner", frm.doc.sales_partner);
+				sales_partner.targets.forEach(element => { 
+					let actual_sales = frm.doc.items.reduce(function (acc, obj) {
+						var qnt = 0
+						if (obj.item_group === element.item_group && obj.grant_commission === 1) { 
+							qnt = obj.base_net_amount
+						}
+						return acc + qnt;
+					}, 0);
+
+					if (actual_sales > 0) {
+						let row = frappe.model.add_child(frm.doc, "Commission", "commission_rate_table");
+						row.item_group = element.item_group
+						row.commission_rate = element.commission_rate
+						row.actual_sales = actual_sales
+						row.sales_partner = frm.doc.sales_partner
+						row.actual_commission = actual_sales * element.commission_rate / 100.0
+						frm.doc.total_custom_commission += actual_sales * element.commission_rate / 100.0
+						frm.refresh_fields("commission_rate_table");
+					} 
+				});
+				console.log(frm.doc.commission_rate_table)
+				frm.refresh_fields("total_custom_commission")
+			});
+		} 
+		
+	 },
 	set_as_lost_dialog: function(frm) {
 		var dialog = new frappe.ui.Dialog({
 			title: __("Set as Lost"),

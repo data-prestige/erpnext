@@ -71,6 +71,10 @@ class ShippingRule(Document):
 		elif self.calculate_based_on == "Net Weight":
 			value = doc.total_net_weight
 			by_value = True
+			
+		elif self.calculate_based_on == "DIM Weight":
+			value = max(doc.total_dim_weight, doc.totale_weight)
+			by_value = True
 
 		elif self.calculate_based_on == "Fixed":
 			shipping_amount = self.shipping_amount

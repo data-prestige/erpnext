@@ -10,6 +10,7 @@ frappe.ui.form.on("Item", {
 		frm.add_fetch('attribute', 'to_range', 'to_range');
 		frm.add_fetch('attribute', 'increment', 'increment');
 		frm.add_fetch('tax_type', 'tax_rate', 'tax_rate');
+
 	},
 	onload: function(frm) {
 		erpnext.item.setup_queries(frm);
@@ -22,7 +23,27 @@ frappe.ui.form.on("Item", {
 		}
 	},
 
-	refresh: function(frm) {
+	refresh: function (frm) {
+		if (frm.doc.prices_table.length === 0) { 
+			frappe.call({
+				method: "erpnext.stock.doctype.item.item.get_item_prices",
+				args: {item_code: frm.doc.item_code},
+				callback: function(r) {
+					if (r.message.length > 0) { 
+						r.message.forEach(x => { 
+							let row = frappe.model.add_child(frm.doc, "Item Prices", "prices_table");
+							row.uom = x.uom;
+							row.price_list = x.price_list;
+							row.price = x.price_list_rate;
+							row.valid_from = x.valid_from;
+							row.valid_upto = x.valid_upto;
+							frm.refresh_fields("prices_table");
+						})
+					}
+				}
+			});
+		}
+		
 		if (frm.doc.is_stock_item) {
 			frm.add_custom_button(__("Stock Balance"), function() {
 				frappe.route_options = {
@@ -150,7 +171,9 @@ frappe.ui.form.on("Item", {
 			frm.set_df_property(fieldname, 'read_only', stock_exists);
 		});
 
-		frm.toggle_reqd('customer', frm.doc.is_customer_provided_item ? 1:0);
+		frm.toggle_reqd('customer', frm.doc.is_customer_provided_item ? 1 : 0);
+		
+		
 	},
 
 	validate: function(frm){
@@ -793,6 +816,20 @@ $.extend(erpnext.item, {
 		frm.layout.refresh_sections();
 	}
 });
+
+
+// frappe.ui.form.on("Item Prices", {
+// 	setup: function (frm) {
+// 		console.log("setup")
+// 	},
+// 	refresh: function (frm) {
+// 		console.log("refresh")
+// 	},
+// 	uom: function(frm, cdt, cdn) {
+// 		var row = locals[cdt][cdn];
+// 		console.log(row)
+// 	}
+// })
 
 frappe.ui.form.on("UOM Conversion Detail", {
 	uom: function(frm, cdt, cdn) {

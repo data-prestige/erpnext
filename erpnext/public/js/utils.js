@@ -94,6 +94,7 @@ $.extend(erpnext.utils, {
 	set_party_dashboard_indicators: function(frm) {
 		if(frm.doc.__onload && frm.doc.__onload.dashboard_info) {
 			var company_wise_info = frm.doc.__onload.dashboard_info;
+			console.log(company_wise_info)
 			if(company_wise_info.length > 1) {
 				company_wise_info.forEach(function(info) {
 					erpnext.utils.add_indicator_for_multicompany(frm, info);
@@ -103,7 +104,11 @@ $.extend(erpnext.utils, {
 					[format_currency(company_wise_info[0].billing_this_year, company_wise_info[0].currency)]), 'blue');
 				frm.dashboard.add_indicator(__('Total Unpaid: {0}',
 					[format_currency(company_wise_info[0].total_unpaid, company_wise_info[0].currency)]),
-				company_wise_info[0].total_unpaid ? 'orange' : 'green');
+					company_wise_info[0].total_unpaid ? 'orange' : 'green');
+				
+				frm.dashboard.add_indicator(__('Lateness: {0}',
+					[company_wise_info[0].lateness]),
+					company_wise_info[0].lateness < 1 ? 'green' : company_wise_info[0].lateness < 14 ? 'orange' : 'red');
 
 				if(company_wise_info[0].loyalty_points) {
 					frm.dashboard.add_indicator(__('Loyalty Points: {0}',

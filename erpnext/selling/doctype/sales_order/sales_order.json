@@ -68,6 +68,8 @@
   "total_qty",
   "base_total",
   "base_net_total",
+  "total_dim_weight",
+  "totale_weight",
   "column_break_33",
   "total_net_weight",
   "total",
@@ -683,6 +685,26 @@
    "label": "Total Net Weight",
    "print_hide": 1,
    "read_only": 1
+  },
+   {
+   "fieldname": "total_dim_weight",
+   "fieldtype": "Float",
+   "label": "Total Dim Weight",
+   "print_hide": 1,
+   "default":0,
+   "read_only": 1,
+   "show_days": 1,
+   "show_seconds": 1
+  },
+   {
+   "fieldname": "totale_weight",
+   "fieldtype": "Float",
+   "label": "Totale Weight",
+   "print_hide": 1,
+   "default":0,
+   "read_only": 1,
+   "show_days": 1,
+   "show_seconds": 1
   },
   {
    "fieldname": "taxes_section",
@@ -1326,6 +1348,19 @@
    "options": "Not Billed\nFully Billed\nPartly Billed\nClosed",
    "print_hide": 1
   },
+
+    {
+   "collapsible": 1,
+   "collapsible_depends_on": "commission_rate",
+   "fieldname": "custom_commission_section_break",
+   "fieldtype": "Section Break",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Custom Commission",
+   "oldfieldtype": "Section Break",
+   "options": "fa fa-group",
+   "print_hide": 1
+  },
   {
    "collapsible": 1,
    "collapsible_depends_on": "commission_rate",
@@ -1382,6 +1417,30 @@
    "options": "Company:company:default_currency",
    "print_hide": 1
   },
+
+
+
+{
+   "allow_on_submit": 1,
+   "fieldname": "commission_rate_table",
+   "fieldtype": "Table",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Commission Rate Table",
+   "oldfieldname": "commission_rate_table",
+   "oldfieldtype": "Table",
+   "options": "Sales Commissions",
+   "print_hide": 1
+  },
+
+{
+   "fieldname": "total_custom_commission",
+   "fieldtype": "Currency",
+   "label": "Total Custom Commission",
+   "read_only": 1,
+   "default":0
+  },
+  
   {
    "collapsible": 1,
    "collapsible_depends_on": "sales_team",

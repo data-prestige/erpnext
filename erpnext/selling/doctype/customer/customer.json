@@ -14,24 +14,25 @@
   "naming_series",
   "salutation",
   "customer_name",
+  "customer_group",
+  "column_break_13",
+  "customer_type",
+  "image",
+  "disabled",
   "gender",
   "default_bank_account",
+  "dati_fiscali_section",
   "tax_id",
   "tax_category",
   "tax_withholding_category",
   "lead_name",
   "opportunity_name",
-  "image",
-  "column_break0",
-  "customer_group",
-  "customer_type",
   "territory",
   "account_manager",
   "so_required",
   "dn_required",
   "is_internal_customer",
   "represents_company",
-  "disabled",
   "allowed_to_transact_section",
   "companies",
   "currency_and_price_list",
@@ -49,11 +50,6 @@
   "column_break_26",
   "customer_primary_address",
   "primary_address",
-  "default_receivable_accounts",
-  "accounts",
-  "credit_limit_section",
-  "payment_terms",
-  "credit_limits",
   "more_info",
   "customer_details",
   "column_break_45",
@@ -70,7 +66,12 @@
   "default_commission_rate",
   "sales_team_section",
   "sales_team",
-  "customer_pos_id"
+  "customer_pos_id",
+  "default_receivable_accounts",
+  "accounts",
+  "credit_limit_section",
+  "payment_terms",
+  "credit_limits"
  ],
  "fields": [
   {
@@ -111,6 +112,7 @@
    "depends_on": "eval:doc.customer_type != 'Company'",
    "fieldname": "gender",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Gender",
    "options": "Gender"
   },
@@ -133,6 +135,7 @@
   {
    "fieldname": "lead_name",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "From Lead",
    "no_copy": 1,
    "oldfieldname": "lead_name",
@@ -144,18 +147,13 @@
   {
    "fieldname": "image",
    "fieldtype": "Attach Image",
-   "hidden": 1,
    "label": "Image",
    "print_hide": 1
   },
   {
-   "fieldname": "column_break0",
-   "fieldtype": "Column Break",
-   "width": "50%"
-  },
-  {
    "fieldname": "account_manager",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Account Manager",
    "options": "User"
   },
@@ -191,6 +189,7 @@
   {
    "fieldname": "tax_category",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Tax Category",
    "options": "Tax Category"
   },
@@ -204,12 +203,14 @@
    "default": "0",
    "fieldname": "is_internal_customer",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Is Internal Customer"
   },
   {
    "depends_on": "is_internal_customer",
    "fieldname": "represents_company",
    "fieldtype": "Link",
+   "hidden": 1,
    "ignore_user_permissions": 1,
    "label": "Represents Company",
    "options": "Company",
@@ -488,16 +489,27 @@
   {
    "fieldname": "tax_withholding_category",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Tax Withholding Category",
    "options": "Tax Withholding Category"
   },
   {
    "fieldname": "opportunity_name",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "From Opportunity",
    "no_copy": 1,
    "options": "Opportunity",
    "print_hide": 1
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dati_fiscali_section",
+   "fieldtype": "Section Break",
+   "label": "Dati fiscali"
   }
  ],
  "icon": "fa fa-user",
@@ -511,7 +523,7 @@
    "link_fieldname": "party"
   }
  ],
- "modified": "2022-04-16 20:32:34.000304",
+ "modified": "2022-09-16 16:30:53.269710",
  "modified_by": "Administrator",
  "module": "Selling",
  "name": "Customer",

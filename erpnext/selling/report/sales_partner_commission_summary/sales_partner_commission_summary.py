@@ -52,20 +52,32 @@ def get_columns(filters):
 			"width": 140,
 		},
 		{
-			"label": _("Commission Rate %"),
-			"fieldname": "commission_rate",
+			"label": _("Item Group"),
+			"fieldname": "item_group",
 			"fieldtype": "Data",
-			"width": 100,
+			"width": 120,
 		},
 		{
-			"label": _("Total Commission"),
-			"fieldname": "total_commission",
+			"label": _("Custom Rate"),
+			"fieldname": "custom_rate",
+			"fieldtype": "Float",
+			"width": 120,
+		},
+		{
+			"label": _("Actual Commission"),
+			"fieldname": "actual_commission",
+			"fieldtype": "Currency",
+			"width": 120,
+		},
+		{
+			"label": _("Actual Sales"),
+			"fieldname": "actual_sales",
 			"fieldtype": "Currency",
 			"width": 120,
 		},
 	]
 
-	return columns
+	return columns  
 
 
 def get_entries(filters):
@@ -75,13 +87,15 @@ def get_entries(filters):
 	entries = frappe.db.sql(
 		"""
 		SELECT
-			name, customer, territory, {0} as posting_date, base_net_total as amount,
-			sales_partner, commission_rate, total_commission
+			t1.name as name, t1.customer, t1.territory, t1.{0} as posting_date, t1.base_net_total as amount,
+			t1.sales_partner, t2.item_group as item_group, t2.commission_rate as custom_rate , t2.actual_commission  as actual_commission,  t2.actual_sales as actual_sales
 		FROM
-			`tab{1}`
+			`tab{1}` as  t1
+		LEFT JOIN `tabSales Commissions` as t2
+		ON (t1.name = t2.parent)
 		WHERE
-			{2} and docstatus = 1 and sales_partner is not null
-			and sales_partner != '' order by name desc, sales_partner
+			{2} and t1.docstatus = 1 and t1.sales_partner is not null
+			and t1.sales_partner != '' order by t1.name desc, t1.sales_partner
 		""".format(
 			date_field, filters.get("doctype"), conditions
 		),

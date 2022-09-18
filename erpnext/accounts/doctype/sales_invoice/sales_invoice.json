@@ -1787,6 +1787,40 @@
    "options": "Company:company:default_currency",
    "print_hide": 1
   },
+
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "commission_rate",
+   "fieldname": "custom_commission_section_break",
+   "fieldtype": "Section Break",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Custom Commission",
+   "oldfieldtype": "Section Break",
+   "options": "fa fa-group",
+   "print_hide": 1
+  },
+
+{
+   "allow_on_submit": 1,
+   "fieldname": "commission_rate_table",
+   "fieldtype": "Table",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Commission Rate Table",
+   "oldfieldname": "commission_rate_table",
+   "oldfieldtype": "Table",
+   "options": "Sales Commissions",
+   "print_hide": 1
+  },
+
+{
+   "fieldname": "total_custom_commission",
+   "fieldtype": "Currency",
+   "label": "Total Custom Commission",
+   "read_only": 1,
+   "default":0
+  },
   {
    "collapsible": 1,
    "collapsible_depends_on": "sales_team",

@@ -63,6 +63,7 @@ class calculate_taxes_and_totals(object):
 		self.calculate_totals()
 		self._cleanup()
 		self.calculate_total_net_weight()
+		self.calculate_total_dim_weight()
 
 	def validate_item_tax_template(self):
 		for item in self.doc.get("items"):
@@ -311,6 +312,25 @@ class calculate_taxes_and_totals(object):
 			self.doc.base_net_total += item.base_net_amount
 
 		self.doc.round_floats_in(self.doc, ["total", "base_total", "net_total", "base_net_total"])
+
+	def calculate_total_dim_weight(self):
+		# DIM weight = width * length * depth / 166 
+		# we need to calculate how many boxes we have to 
+		# prepare to  fullfill the order  and then sum up 
+		# the dimw for each box
+		if self.doc.meta.get_field("total_net_weight"):
+			self.doc.total_dim_weight = 0.0
+			self.doc.totale_weight = 0.0
+			shipping_rule = None
+			if self.doc.shipping_rule:
+				shipping_rule = frappe.get_doc('Shipping Rule', self.doc.shipping_rule)
+				self.doc.transporter = shipping_rule.transporter
+			if self.doc.meta.get_field("shipment_parcel") and shipping_rule:
+				for d in self.doc.get("shipment_parcel"):
+					self.doc.total_dim_weight += (d.height * d.length * d.width)  * d.count
+					self.doc.totale_weight += d.weight * d.count
+				self.doc.total_dim_weight = (self.doc.total_dim_weight*shipping_rule.conversion_dim_weight)/1000000
+		
 
 	def calculate_shipping_charges(self):
 

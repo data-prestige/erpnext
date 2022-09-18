@@ -10,6 +10,19 @@ frappe.provide("erpnext.stock.delivery_note");
 frappe.provide("erpnext.accounts.dimensions");
 
 frappe.ui.form.on("Delivery Note", {
+	add_template: function(frm) {
+		if (frm.doc.parcel_template) {
+			frappe.model.with_doc("Shipment Parcel Template", frm.doc.parcel_template, () => {
+				let parcel_template = frappe.model.get_doc("Shipment Parcel Template", frm.doc.parcel_template);
+				let row = frappe.model.add_child(frm.doc, "Shipment Parcel", "shipment_parcel");
+				row.length = parcel_template.length;
+				row.width = parcel_template.width;
+				row.height = parcel_template.height;
+				row.weight = parcel_template.weight;
+				frm.refresh_fields("shipment_parcel");
+			});
+		}
+	},
 	setup: function(frm) {
 		frm.custom_make_buttons = {
 			'Packing Slip': 'Packing Slip',
@@ -121,7 +134,12 @@ frappe.ui.form.on("Delivery Note Item", {
 	cost_center: function(frm, dt, dn) {
 		var d = locals[dt][dn];
 		frm.update_in_all_rows('items', 'cost_center', d.cost_center);
-	}
+	},
+	ordered_quantity: function(frm, dt, dn) {
+		var d = locals[dt][dn];
+		console.log(d)
+		// frm.update_in_all_rows('items', 'cost_center', d.cost_center);
+	},
 });
 
 erpnext.stock.DeliveryNoteController = class DeliveryNoteController extends erpnext.selling.SellingController {

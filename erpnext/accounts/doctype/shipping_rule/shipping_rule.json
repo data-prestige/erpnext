@@ -18,6 +18,7 @@
   "dimension_col_break",
   "shipping_amount_section",
   "calculate_based_on",
+  "transporter",
   "column_break_8",
   "shipping_amount",
   "rule_conditions_section",
@@ -93,7 +94,15 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Calculate Based On",
-   "options": "Fixed\nNet Total\nNet Weight"
+   "options": "Fixed\nNet Total\nNet Weight\nDIM Weight"
+  },
+  {
+   "fieldname": "transporter",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Transporter",
+   "options": "Supplier"
   },
   {
    "fieldname": "column_break_8",
@@ -104,6 +113,12 @@
    "fieldname": "shipping_amount",
    "fieldtype": "Currency",
    "label": "Shipping Amount"
+  },
+  {
+   "depends_on": "eval:doc.calculate_based_on==='DIM Weight'",
+   "fieldname": "conversion_dim_weight",
+   "fieldtype": "Float",
+   "label": "Conversion Dim Weight"
   },
   {
    "depends_on": "eval:doc.calculate_based_on!=='Fixed'",

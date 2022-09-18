@@ -735,6 +735,22 @@ def get_timeline_data(doctype, name):
 
 	return out
 
+def get_average_lateness(party):
+	data = frappe.db.sql(
+			"""select AVG(DATEDIFF(tpe.posting_date, tsi.due_date)) as date_diff	
+				FROM `tabSales Invoice` tsi
+				left join `tabPayment Entry Reference` tper 
+				ON tsi.name = tper.reference_name
+				left join `tabPayment Entry` tpe 
+				on tper.parent = tpe.name 
+				WHERE tsi.customer=%s
+				GROUP BY tsi.customer""",
+				party
+		)
+	if data:
+		return data[0][0]
+	return -1
+
 
 def get_dashboard_info(party_type, party, loyalty_program=None):
 	current_fiscal_year = get_fiscal_year(nowdate(), as_dict=True)
@@ -821,6 +837,8 @@ def get_dashboard_info(party_type, party, loyalty_program=None):
 		info["currency"] = party_account_currency
 		info["total_unpaid"] = flt(total_unpaid) if total_unpaid else 0
 		info["company"] = d.company
+		info["lateness"] = get_average_lateness(party)
+		
 
 		if party_type == "Customer" and loyalty_point_details:
 			info["loyalty_points"] = loyalty_points

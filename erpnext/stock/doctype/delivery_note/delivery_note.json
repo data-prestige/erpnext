@@ -76,6 +76,13 @@
   "total_net_weight",
   "total",
   "net_total",
+  "parcels_section",
+  "parcel_template",
+  "add_template",
+  "shipment_parcel",
+  "column_break_parcels",
+  "total_dim_weight",
+  "totale_weight",
   "taxes_section",
   "tax_category",
   "column_break_39",
@@ -625,6 +632,64 @@
    "label": "Total Net Weight",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "label": "Parcels",
+   "fieldname": "parcels_section",
+   "fieldtype": "Section Break",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "oldfieldtype": "Section Break",
+   "options": "fa fa-group"
+  },
+ {
+   "fieldname": "parcel_template",
+   "fieldtype": "Link",
+   "label": "Parcel Template",
+   "options": "Shipment Parcel Template"
+  },
+  {
+   "depends_on": "eval:doc.docstatus !== 1\n",
+   "fieldname": "add_template",
+   "fieldtype": "Button",
+   "label": "Add Template"
+  },
+  {
+   "fieldname": "shipment_parcel",
+   "fieldtype": "Table",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Shipment Parcel",
+   "oldfieldname": "shipment_parcel",
+   "oldfieldtype": "Table",
+   "options": "Shipment Parcel"
+  },
+   {
+   "fieldname": "column_break_parcels",
+   "fieldtype": "Column Break",
+   "hide_days": 1,
+   "hide_seconds": 1
+  },
+
+   {
+   "fieldname": "total_dim_weight",
+   "fieldtype": "Float",
+   "label": "Total Dim Weight",
+   "default":0,
+   "print_hide": 1,
+   "read_only": 1,
+   "show_days": 1,
+   "show_seconds": 1
+  },
+   {
+   "fieldname": "totale_weight",
+   "fieldtype": "Float",
+   "label": "Totale Weight",
+   "default":0,
+   "print_hide": 1,
+   "read_only": 1,
+   "show_days": 1,
+   "show_seconds": 1
   },
   {
    "fieldname": "taxes_section",

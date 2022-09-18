@@ -331,6 +331,44 @@
    "print_hide": 1,
    "read_only": 1
   },
+
+  {
+   "fieldname": "multiple_discount",
+   "fieldtype": "Section Break",
+   "label": "Multiple Discount"
+  },
+  {
+   "depends_on": "eval:doc.price_list_rate",
+   "fieldname": "discount_percentage_1",
+   "fieldtype": "Percent",
+   "label": "Discount 1",
+   "oldfieldtype": "Float",
+   "print_hide": 1,
+   "print_width": "70px",
+   "width": "70px"
+  },
+  {
+   "depends_on": "eval:doc.discount_percentage_1 && doc.price_list_rate",
+   "fieldname": "discount_percentage_2",
+   "fieldtype": "Percent",
+   "label": "Discount 2",
+   "oldfieldtype": "Float",
+   "print_hide": 1,
+   "print_width": "70px",
+   "width": "70px"
+  },
+  {
+   "depends_on": "eval:doc.discount_percentage_2 && doc.price_list_rate",
+   "fieldname": "discount_percentage_3",
+   "fieldtype": "Percent",
+   "label": "Discount 3",
+   "oldfieldtype": "Float",
+   "print_hide": 1,
+   "print_width": "70px",
+   "width": "70px"
+  },
+
+  
   {
    "fieldname": "section_break_simple1",
    "fieldtype": "Section Break",

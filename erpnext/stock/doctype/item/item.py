@@ -54,6 +54,8 @@ class Item(Document):
 	def onload(self):
 		self.set_onload("stock_exists", self.stock_ledger_created())
 		self.set_onload("asset_naming_series", get_asset_naming_series())
+		self.set_onload("prices_table", get_item_prices(self.item_code))
+		
 
 	def autoname(self):
 		if frappe.db.get_default("item_naming_by") == "Naming Series":
@@ -116,6 +118,7 @@ class Item(Document):
 		self.cant_change()
 		self.validate_item_tax_net_rate_range()
 		set_item_tax_from_hsn_code(self)
+		self.validate_prices()
 
 		if not self.is_new():
 			self.old_item_group = frappe.db.get_value(self.doctype, self.name, "item_group")
@@ -125,6 +128,38 @@ class Item(Document):
 		self.update_variants()
 		self.update_item_price()
 		self.update_website_item()
+ 
+	def validate_prices(self):
+		# update item price in price list 
+		# based on table price
+		frappe.db.sql("""delete from `tabItem Price` where item_code='{0}'""".format(self.name))
+		if self.prices_table:
+			for price in self.prices_table:
+				args = {
+					"doctype": "Item Price",
+					"price_list": price.price_list,
+					"item_code": self.name,
+					"uom": price.uom,
+					"valid_from": price.valid_from,
+					"valid_upto": price.valid_upto,
+					"price_list_rate": price.price,
+					"currency": erpnext.get_default_currency(), 
+					}
+				if not frappe.db.exists("Item Price",
+					{
+					"doctype": "Item Price",
+					"price_list": price.price_list,
+					"item_code": self.name,
+					"uom": price.uom,
+					"currency": erpnext.get_default_currency(), 
+					},):
+					
+					doc = frappe.get_doc(args)
+					doc.db_insert()
+
+
+					
+		
 
 	def validate_description(self):
 		"""Clean HTML description if set"""
@@ -1317,3 +1352,11 @@ def get_asset_naming_series():
 	from erpnext.assets.doctype.asset.asset import get_asset_naming_series
 
 	return get_asset_naming_series()
+
+@frappe.whitelist()
+def get_item_prices(item_code):
+	return frappe.get_all(
+		"Item Price",
+		fields=["price_list", "price_list_rate", "uom",  "valid_from", "valid_upto"],
+		filters={"item_code": item_code},
+	)

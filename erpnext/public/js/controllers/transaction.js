@@ -1449,6 +1449,7 @@ erpnext.TransactionController = class TransactionController extends erpnext.taxe
 					"item_group": d.item_group,
 					"brand": d.brand,
 					"qty": d.qty,
+					"ordered_qty": d.qty,
 					"stock_qty": d.stock_qty,
 					"uom": d.uom,
 					"stock_uom": d.stock_uom,

@@ -653,9 +653,10 @@ def make_delivery_note(source_name, target_doc=None, skip_item_mapping=False):
 			target.update(get_fetch_values("Delivery Note", "company_address", target.company_address))
 
 	def update_item(source, target, source_parent):
-		target.base_amount = (flt(source.qty) - flt(source.delivered_qty)) * flt(source.base_rate)
-		target.amount = (flt(source.qty) - flt(source.delivered_qty)) * flt(source.rate)
-		target.qty = flt(source.qty) - flt(source.delivered_qty)
+		target.base_amount = 0
+		target.amount = 0
+		target.qty = 0
+		target.ordered_quantity = flt(source.qty) - flt(source.delivered_qty)
 
 		item = get_item_defaults(target.item_code, source_parent.company)
 		item_group = get_item_group_defaults(target.item_code, source_parent.company)

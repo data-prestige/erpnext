@@ -4,6 +4,15 @@
 frappe.provide('erpnext.accounts.dimensions');
 
 frappe.ui.form.on('Shipping Rule', {
+	setup: function (frm) {
+		frm.set_query("transporter", function() {
+			return {
+				filters: [
+					["Supplier", "is_transporter", "=", 1]
+				]
+			}
+		});
+	},
 	onload: function(frm) {
 		erpnext.accounts.dimensions.setup_dimension_filters(frm, frm.doctype);
 	},
