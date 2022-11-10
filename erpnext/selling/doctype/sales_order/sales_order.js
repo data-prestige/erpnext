@@ -133,6 +133,8 @@ frappe.ui.form.on("Sales Order", {
 		});
 		refresh_field("items");
 	}
+
+	
 });
 
 frappe.ui.form.on("Sales Order Item", {
@@ -148,6 +150,35 @@ frappe.ui.form.on("Sales Order Item", {
 	delivery_date: function(frm, cdt, cdn) {
 		if(!frm.doc.delivery_date) {
 			erpnext.utils.copy_value_in_all_rows(frm.doc, cdt, cdn, "items", "delivery_date");
+		}
+	},
+	
+	discount_percentage_1: function (frm, cdt, cdn) {
+		var row = locals[cdt][cdn];
+		if (row.discount_percentage_1) {
+			row.discount_percentage = row.discount_percentage_1 
+			refresh_field("discount_percentage", cdn, "items");
+			console.log("discount_percentage", row.discount_percentage)
+		}
+	},
+	
+	discount_percentage_2: function (frm, cdt, cdn) {
+		var row = locals[cdt][cdn];
+		if (row.discount_percentage_2) {
+			let discount_amount = row.rate * row.discount_percentage_2 / 100;
+			row.discount_percentage = 100 * (row.discount_amount + discount_amount) / row.rate_with_margin
+			refresh_field("discount_percentage", cdn, "items");
+			console.log("discount_percentage", row.discount_percentage)
+		}
+	},
+
+	discount_percentage_3: function (frm, cdt, cdn) {
+		var row = locals[cdt][cdn];
+		if (row.discount_percentage_3) { 
+			let discount_amount = row.rate * row.discount_percentage_3 / 100;
+			row.discount_percentage = 100 * (row.discount_amount + discount_amount) / row.rate_with_margin
+			refresh_field("discount_percentage", cdn, "items");
+			console.log("discount_percentage", row.discount_percentage)
 		}
 	}
 });

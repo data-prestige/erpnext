@@ -3,6 +3,23 @@
 
 frappe.provide("erpnext.item");
 
+const get_default_list = (frm) => { 
+	frappe.call({
+		method: "erpnext.stock.doctype.item.item.get_default_price_list",
+		callback: function(r) {
+			if (r.message.length > 0) { 
+				r.message.forEach(x => { 
+					let row = frappe.model.add_child(frm.doc, "Item Prices", "prices_table");
+					row.uom = 'Nr';
+					row.price_list = x.price_list_name;
+					row.price = frm.doc.valuation_rate ? frm.doc.valuation_rate : 0;
+					frm.refresh_fields("prices_table");
+				})
+			}
+		}
+	});
+}
+
 frappe.ui.form.on("Item", {
 	setup: function(frm) {
 		frm.add_fetch('attribute', 'numeric_values', 'numeric_values');
@@ -24,13 +41,13 @@ frappe.ui.form.on("Item", {
 	},
 
 	refresh: function (frm) {
-		if (frm.doc.prices_table.length === 0) { 
+		if (frm.doc.prices_table && frm.doc.prices_table.length === 0) { 
 			frappe.call({
 				method: "erpnext.stock.doctype.item.item.get_item_prices",
 				args: {item_code: frm.doc.item_code},
 				callback: function(r) {
-					if (r.message.length > 0) { 
-						r.message.forEach(x => { 
+					if (r.message.length > 0) {
+						r.message.forEach(x => {
 							let row = frappe.model.add_child(frm.doc, "Item Prices", "prices_table");
 							row.uom = x.uom;
 							row.price_list = x.price_list;
@@ -39,9 +56,11 @@ frappe.ui.form.on("Item", {
 							row.valid_upto = x.valid_upto;
 							frm.refresh_fields("prices_table");
 						})
-					}
+					} 
 				}
 			});
+		}else {
+			get_default_list(frm)
 		}
 		
 		if (frm.doc.is_stock_item) {

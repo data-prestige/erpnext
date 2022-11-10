@@ -448,17 +448,17 @@
    "type": "Link"
   }
  ],
- "modified": "2022-07-22 15:03:30.755417",
- "modified_by": "Administrator",
+ "modified": "2022-11-10 11:20:18.872048",
+ "modified_by": "ezioroncati@gmail.com",
  "module": "CRM",
  "name": "CRM",
  "owner": "Administrator",
- "parent_page": "",
+ "parent_page": "Build",
  "public": 1,
  "quick_lists": [],
  "restrict_to_domain": "",
  "roles": [],
- "sequence_id": 7.0,
+ "sequence_id": 11.0,
  "shortcuts": [
   {
    "color": "Blue",

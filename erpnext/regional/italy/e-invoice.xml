@@ -9,13 +9,13 @@
 {%- endmacro -%}
 
 {%- macro render_address(address) %}
-<Indirizzo>{{ address.address_line1 }}</Indirizzo>
-<CAP>{{ address.pincode }}</CAP>
-<Comune>{{ address.city }}</Comune>
-{%- if address.state_code %}
-<Provincia>{{ address.state_code }}</Provincia>
-{%- endif %}
-<Nazione>{{ address.country_code }}</Nazione>
+  <Indirizzo>{{ address.address_line1 }}</Indirizzo>
+  <CAP>{{ address.pincode }}</CAP>
+  <Comune>{{ address.city }}</Comune>
+  {%- if address.state_code %}
+  <Provincia>{{ address.state_code }}</Provincia>
+  {%- endif %}
+  <Nazione>{{ address.country_code }}</Nazione>
 {%- endmacro %}
 
 {%- macro render_discount_or_margin(item) -%}
@@ -47,7 +47,7 @@
     <DatiTrasmissione>
       <IdTrasmittente>
         <IdPaese>{{ doc.company_address_data.country_code }}</IdPaese>
-        <IdCodice>{{ doc.company_fiscal_code or doc.company_tax_id | replace("IT","") }}</IdCodice>
+        <IdCodice>{{ doc.node_id }}</IdCodice>
       </IdTrasmittente>
       <ProgressivoInvio>{{ doc.progressive_number }}</ProgressivoInvio>
       <FormatoTrasmissione>{{ doc.transmission_format_code }}</FormatoTrasmissione>
@@ -74,7 +74,7 @@
         <RegimeFiscale>{{ doc.company_fiscal_regime.split("-")[0] }}</RegimeFiscale>
       </DatiAnagrafici>
       <Sede>
-      {{ render_address(doc.company_address_data) }}
+        {{ render_address(doc.company_address_data) }}
       </Sede>
       {%- if doc.company_data.registration_number %}
       <IscrizioneREA>

@@ -1360,3 +1360,11 @@ def get_item_prices(item_code):
 		fields=["price_list", "price_list_rate", "uom",  "valid_from", "valid_upto"],
 		filters={"item_code": item_code},
 	)
+
+@frappe.whitelist()
+def get_default_price_list():
+	return frappe.get_all(
+		"Price List",
+		fields=["price_list_name"],
+		filters={"default_price_list": 1},
+	)

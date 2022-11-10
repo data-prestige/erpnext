@@ -704,13 +704,14 @@
    "type": "Link"
   }
  ],
- "modified": "2022-04-26 13:29:55.087240",
- "modified_by": "Administrator",
+ "modified": "2022-11-10 11:20:19.846200",
+ "modified_by": "ezioroncati@gmail.com",
  "module": "Selling",
  "name": "Selling",
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
+ "quick_lists": [],
  "restrict_to_domain": "",
  "roles": [],
  "sequence_id": 23.0,

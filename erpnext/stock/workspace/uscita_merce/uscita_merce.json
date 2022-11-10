@@ -1,0 +1,48 @@
+{
+ "charts": [],
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Preparazione Buoni Uscita Merci</b></span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Ordini da consegnare\",\"col\":6}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Documenti di Trasporto\",\"col\":5}},{\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "creation": "2022-10-10 13:29:03.670692",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "scolor",
+ "idx": 0,
+ "label": "Uscita Merce",
+ "links": [],
+ "modified": "2022-11-10 11:20:18.085156",
+ "modified_by": "ezioroncati@gmail.com",
+ "module": "Stock",
+ "name": "Uscita Merce",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Magazziniere"
+  }
+ ],
+ "sequence_id": 4.0,
+ "shortcuts": [
+  {
+   "color": "Yellow",
+   "doc_view": "List",
+   "format": "{} To Bill",
+   "label": "Documenti di Trasporto",
+   "link_to": "Delivery Note",
+   "stats_filter": "{\"company\":[\"like\",\"%HD Group srl%\"],\"status\":[\"=\",null]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "format": "{}  Available",
+   "label": "Ordini da consegnare",
+   "link_to": "Sales Order",
+   "type": "DocType"
+  }
+ ],
+ "title": "Uscita Merce"
+}

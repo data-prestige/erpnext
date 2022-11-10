@@ -18,9 +18,9 @@ from erpnext.controllers.accounts_controller import (
 )
 from erpnext.stock.get_item_details import _get_item_tax_template
 
-
 class calculate_taxes_and_totals(object):
 	def __init__(self, doc):
+		print("calculate_taxes_and_totals py init")
 		self.doc = doc
 		frappe.flags.round_off_applicable_accounts = []
 		get_round_off_applicable_accounts(self.doc.company, frappe.flags.round_off_applicable_accounts)

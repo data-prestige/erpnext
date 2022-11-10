@@ -9,32 +9,27 @@
   "customer_section",
   "title",
   "naming_series",
-  "customer",
-  "customer_name",
-  "tax_id",
+  "posting_date",
   "pos_profile",
-  "is_pos",
   "is_consolidated",
   "is_return",
   "is_debit_note",
   "update_billed_amount_in_sales_order",
-  "column_break1",
   "company",
   "company_tax_id",
-  "posting_date",
   "posting_time",
   "set_posting_time",
-  "due_date",
   "return_against",
   "amended_from",
-  "accounting_dimensions_section",
-  "project",
-  "dimension_col_break",
-  "cost_center",
+  "is_pos",
+  "customer",
+  "customer_name",
+  "tax_id",
+  "column_break1",
   "customer_po_details",
-  "po_no",
-  "column_break_23",
   "po_date",
+  "column_break_24",
+  "po_no",
   "address_and_contact",
   "customer_address",
   "address_display",
@@ -50,6 +45,11 @@
   "company_address_display",
   "dispatch_address_name",
   "dispatch_address",
+  "accounting_dimensions_section",
+  "project",
+  "dimension_col_break",
+  "cost_center",
+  "dettaglio_vendita_tab",
   "currency_and_price_list",
   "currency",
   "conversion_rate",
@@ -83,10 +83,16 @@
   "total_net_weight",
   "total",
   "net_total",
-  "taxes_section",
-  "taxes_and_charges",
-  "column_break_38",
+  "spedizione_tab",
+  "parcels_section",
+  "shipment_parcel",
+  "column_break_39",
+  "total_dim_weight",
+  "totale_weight",
   "shipping_rule",
+  "iva_e_tax_tab",
+  "taxes_and_charges",
+  "column_break_89",
   "tax_category",
   "section_break_40",
   "taxes",
@@ -96,6 +102,32 @@
   "base_total_taxes_and_charges",
   "column_break_47",
   "total_taxes_and_charges",
+  "modalit\u00e0_e_termini_di_pagamento_tab",
+  "advances_section",
+  "allocate_advances_automatically",
+  "get_advances",
+  "advances",
+  "payment_schedule_section",
+  "ignore_default_payment_terms_template",
+  "payment_terms_template",
+  "payment_schedule",
+  "payments_section",
+  "cash_bank_account",
+  "due_date",
+  "section_break_84",
+  "base_paid_amount",
+  "column_break_86",
+  "paid_amount",
+  "section_break_88",
+  "payments",
+  "base_change_amount",
+  "column_break_90",
+  "change_amount",
+  "account_for_change_amount",
+  "terms_section_break",
+  "tc_name",
+  "terms",
+  "punti_e_sconti_tab",
   "loyalty_points_redemption",
   "loyalty_points",
   "loyalty_amount",
@@ -112,6 +144,7 @@
   "column_break_51",
   "additional_discount_percentage",
   "discount_amount",
+  "totali_tab",
   "totals",
   "base_grand_total",
   "base_rounding_adjustment",
@@ -132,29 +165,6 @@
   "column_break_74",
   "write_off_account",
   "write_off_cost_center",
-  "advances_section",
-  "allocate_advances_automatically",
-  "get_advances",
-  "advances",
-  "payment_schedule_section",
-  "ignore_default_payment_terms_template",
-  "payment_terms_template",
-  "payment_schedule",
-  "payments_section",
-  "cash_bank_account",
-  "payments",
-  "section_break_84",
-  "base_paid_amount",
-  "column_break_86",
-  "paid_amount",
-  "section_break_88",
-  "base_change_amount",
-  "column_break_90",
-  "change_amount",
-  "account_for_change_amount",
-  "terms_section_break",
-  "tc_name",
-  "terms",
   "edit_printing_settings",
   "letter_head",
   "group_same_items",
@@ -192,7 +202,10 @@
   "column_break_140",
   "auto_repeat",
   "update_auto_repeat_reference",
-  "against_income_account"
+  "against_income_account",
+  "custom_commission_section_break",
+  "commission_rate_table",
+  "total_custom_commission"
  ],
  "fields": [
   {
@@ -269,6 +282,7 @@
   {
    "fieldname": "project",
    "fieldtype": "Link",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "in_global_search": 1,
@@ -333,6 +347,7 @@
   {
    "fieldname": "cost_center",
    "fieldtype": "Link",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Cost Center",
@@ -439,12 +454,6 @@
    "print_hide": 1
   },
   {
-   "fieldname": "column_break_23",
-   "fieldtype": "Column Break",
-   "hide_days": 1,
-   "hide_seconds": 1
-  },
-  {
    "allow_on_submit": 1,
    "fieldname": "po_date",
    "fieldtype": "Date",
@@ -507,7 +516,6 @@
   {
    "fieldname": "contact_email",
    "fieldtype": "Data",
-   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Contact Email",
@@ -748,6 +756,7 @@
   {
    "fieldname": "product_bundle_help",
    "fieldtype": "HTML",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Product Bundle Help",
@@ -759,6 +768,7 @@
    "depends_on": "eval: !doc.is_return",
    "fieldname": "time_sheet_list",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Time Sheet List"
@@ -766,6 +776,7 @@
   {
    "fieldname": "timesheets",
    "fieldtype": "Table",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Time Sheets",
@@ -776,6 +787,7 @@
    "default": "0",
    "fieldname": "total_billing_amount",
    "fieldtype": "Currency",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Total Billing Amount",
@@ -855,12 +867,46 @@
    "read_only": 1
   },
   {
-   "fieldname": "taxes_section",
+   "fieldname": "parcels_section",
    "fieldtype": "Section Break",
    "hide_days": 1,
    "hide_seconds": 1,
+   "label": "Composizione Spedizione",
    "oldfieldtype": "Section Break",
-   "options": "fa fa-money"
+   "options": "fa fa-group"
+  },
+  {
+   "fieldname": "shipment_parcel",
+   "fieldtype": "Table",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Shipment Parcel",
+   "oldfieldname": "shipment_parcel",
+   "oldfieldtype": "Table",
+   "options": "Shipment Parcel",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_39",
+   "fieldtype": "Column Break",
+   "hide_days": 1,
+   "hide_seconds": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_dim_weight",
+   "fieldtype": "Float",
+   "label": "Total Dim Weight",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "totale_weight",
+   "fieldtype": "Float",
+   "label": "Totale Weight",
+   "print_hide": 1,
+   "read_only": 1
   },
   {
    "fieldname": "taxes_and_charges",
@@ -872,12 +918,6 @@
    "oldfieldtype": "Link",
    "options": "Sales Taxes and Charges Template",
    "print_hide": 1
-  },
-  {
-   "fieldname": "column_break_38",
-   "fieldtype": "Column Break",
-   "hide_days": 1,
-   "hide_seconds": 1
   },
   {
    "fieldname": "shipping_rule",
@@ -1124,6 +1164,7 @@
    "depends_on": "eval:!doc.disable_rounded_total",
    "fieldname": "base_rounding_adjustment",
    "fieldtype": "Currency",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Rounding Adjustment (Company Currency)",
@@ -1136,6 +1177,7 @@
    "depends_on": "eval:!doc.disable_rounded_total",
    "fieldname": "base_rounded_total",
    "fieldtype": "Currency",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Rounded Total (Company Currency)",
@@ -1149,6 +1191,7 @@
    "description": "In Words will be visible once you save the Sales Invoice.",
    "fieldname": "base_in_words",
    "fieldtype": "Small Text",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "In Words (Company Currency)",
@@ -1185,6 +1228,7 @@
    "depends_on": "eval:!doc.disable_rounded_total",
    "fieldname": "rounding_adjustment",
    "fieldtype": "Currency",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Rounding Adjustment",
@@ -1198,6 +1242,7 @@
    "depends_on": "eval:!doc.disable_rounded_total",
    "fieldname": "rounded_total",
    "fieldtype": "Currency",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Rounded Total",
@@ -1209,6 +1254,7 @@
   {
    "fieldname": "in_words",
    "fieldtype": "Small Text",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "In Words",
@@ -1529,6 +1575,7 @@
    "collapsible": 1,
    "fieldname": "edit_printing_settings",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Printing Settings"
@@ -1537,6 +1584,7 @@
    "allow_on_submit": 1,
    "fieldname": "letter_head",
    "fieldtype": "Link",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Letter Head",
@@ -1550,6 +1598,7 @@
    "default": "0",
    "fieldname": "group_same_items",
    "fieldtype": "Check",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Group same items",
@@ -1558,6 +1607,7 @@
   {
    "fieldname": "language",
    "fieldtype": "Data",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Print Language",
@@ -1568,6 +1618,7 @@
   {
    "fieldname": "column_break_84",
    "fieldtype": "Column Break",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1
   },
@@ -1575,6 +1626,7 @@
    "allow_on_submit": 1,
    "fieldname": "select_print_heading",
    "fieldtype": "Link",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Print Heading",
@@ -1787,7 +1839,6 @@
    "options": "Company:company:default_currency",
    "print_hide": 1
   },
-
   {
    "collapsible": 1,
    "collapsible_depends_on": "commission_rate",
@@ -1800,8 +1851,7 @@
    "options": "fa fa-group",
    "print_hide": 1
   },
-
-{
+  {
    "allow_on_submit": 1,
    "fieldname": "commission_rate_table",
    "fieldtype": "Table",
@@ -1813,13 +1863,12 @@
    "options": "Sales Commissions",
    "print_hide": 1
   },
-
-{
+  {
+   "default": "0",
    "fieldname": "total_custom_commission",
    "fieldtype": "Currency",
    "label": "Total Custom Commission",
-   "read_only": 1,
-   "default":0
+   "read_only": 1
   },
   {
    "collapsible": 1,
@@ -1915,6 +1964,7 @@
    "collapsible": 1,
    "fieldname": "accounting_dimensions_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Accounting Dimensions"
@@ -1922,6 +1972,7 @@
   {
    "fieldname": "dimension_col_break",
    "fieldtype": "Column Break",
+   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1
   },
@@ -1994,6 +2045,7 @@
    "depends_on": "grand_total",
    "fieldname": "disable_rounded_total",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Disable Rounded Total"
   },
   {
@@ -2028,6 +2080,7 @@
   {
    "fieldname": "total_billing_hours",
    "fieldtype": "Float",
+   "hidden": 1,
    "label": "Total Billing Hours",
    "print_hide": 1,
    "read_only": 1
@@ -2044,6 +2097,44 @@
    "fieldname": "is_cash_or_non_trade_discount",
    "fieldtype": "Check",
    "label": "Is Cash or Non Trade Discount"
+  },
+  {
+   "fieldname": "spedizione_tab",
+   "fieldtype": "Tab Break",
+   "label": "Spedizione"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dettaglio_vendita_tab",
+   "fieldtype": "Tab Break",
+   "label": "Dettaglio Vendita"
+  },
+  {
+   "fieldname": "iva_e_tax_tab",
+   "fieldtype": "Tab Break",
+   "label": "IVA e Tax"
+  },
+  {
+   "fieldname": "column_break_89",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "modalit\u00e0_e_termini_di_pagamento_tab",
+   "fieldtype": "Tab Break",
+   "label": "Modalit\u00e0 e Termini di Pagamento"
+  },
+  {
+   "fieldname": "punti_e_sconti_tab",
+   "fieldtype": "Tab Break",
+   "label": "Punti e sconti"
+  },
+  {
+   "fieldname": "totali_tab",
+   "fieldtype": "Tab Break",
+   "label": "Totali"
   }
  ],
  "icon": "fa fa-file-text",
@@ -2056,7 +2147,7 @@
    "link_fieldname": "consolidated_invoice"
   }
  ],
- "modified": "2022-07-11 17:43:56.435382",
+ "modified": "2022-11-08 17:29:51.193870",
  "modified_by": "Administrator",
  "module": "Accounts",
  "name": "Sales Invoice",

@@ -219,7 +219,12 @@ def get_taxes_from_file(file_content, tax_account):
 def get_payment_terms_from_file(file_content):
 	terms = []
 	# Get mode of payment dict from setup
-	mop_options = frappe.get_meta("Mode of Payment").fields[4].options
+	mop_options = frappe.get_meta("Mode of Payment").fields[5].options
+	
+	frappe.log("get_payment_terms_from_file")
+	frappe.log(frappe.get_meta("Mode of Payment"))
+	frappe.log(mop_options)
+
 	mop_str = re.sub("\n", ",", mop_options)
 	mop_dict = dict(item.split("-") for item in mop_str.split(","))
 	# read file for payment information

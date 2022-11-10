@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:FileQuadraturaFTP xmlns:ns2="http://www.fatturapa.it/sdi/ftp/v2.0" versione="2.0">
+    <IdentificativoNodo>{{ doc.node_id }}</IdentificativoNodo>
+    <DataOraCreazione>{{ doc.created_time }}</DataOraCreazione>
+    <NomeSupporto>{{ doc.zip_filename }}</NomeSupporto>
+    <NumeroFile>
+        <File>
+            <Tipo>{{ doc.tipo_fatture }}</Tipo>
+            <Numero>{{ doc.numero_fatture }}</Numero>
+        </File>
+    </NumeroFile>
+</ns2:FileQuadraturaFTP>
+
+ 

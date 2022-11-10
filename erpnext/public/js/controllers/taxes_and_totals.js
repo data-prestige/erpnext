@@ -468,7 +468,7 @@ erpnext.taxes_and_totals = class TaxesAndTotals extends erpnext.payments {
 	}
 
 	round_off_totals(tax) {
-		if (frappe.flags.round_off_applicable_accounts.includes(tax.account_head)) {
+		if (frappe.flags.round_off_applicable_accounts && frappe.flags.round_off_applicable_accounts.includes(tax.account_head)) {
 			tax.tax_amount= Math.round(tax.tax_amount);
 			tax.tax_amount_after_discount_amount = Math.round(tax.tax_amount_after_discount_amount);
 		}
@@ -478,7 +478,7 @@ erpnext.taxes_and_totals = class TaxesAndTotals extends erpnext.payments {
 	}
 
 	round_off_base_values(tax) {
-		if (frappe.flags.round_off_applicable_accounts.includes(tax.account_head)) {
+		if (frappe.flags.round_off_applicable_accounts && frappe.flags.round_off_applicable_accounts.includes(tax.account_head)) {
 			tax.base_tax_amount= Math.round(tax.base_tax_amount);
 			tax.base_tax_amount_after_discount_amount = Math.round(tax.base_tax_amount_after_discount_amount);
 		}
